@@ -1,0 +1,181 @@
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  bottom: 0;
+  left: 0;
+  height: 4em;
+}
+
+.nav-bar .nav-bar-item {
+  width: 50%;
+  background: #000248;
+  box-shadow: -1px -1px 5px 0px #000f2f inset, 2px 2px 5px 0px #c9daff inset;
+  font-size: 1.3em;
+  color: white;
+  font-family: Nunito, Arial;
+  font-feature-settings: "c2sc";
+  font-variant: small-caps;
+  font-weight: bold;
+  border: none;
+}
+
+.main-title {
+  border-bottom: 1px solid #888888;
+  font-family: Nunito, Arial;
+  margin: 0;
+  padding: 0;
+  color: #002984;
+}
+
+.page-title {
+  font-size: 1.7em;
+  font-weight: normal;
+  font-family: Arial;
+}
+
+.config-form {
+  padding: 0.2em;
+}
+
+.form-section {
+  margin: 1em 0;
+  text-align: center;
+  height: 90px;
+  box-shadow: 2px 2px 3px 0 #00000030;
+  border-radius: 10px;
+  padding: 0.4em 0;
+}
+
+.form-section-title {
+  padding: 0;
+  margin: 0;
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 0.7em;
+}
+
+.form-section-input {
+  text-align: center;
+  margin: 0 6px;
+  font-size: 1.2em;
+  font-family: sans-serif;
+  /* border: 1px solid grey; */
+  /* border-radius: 10px; */
+  padding: 10px;
+}
+
+.form-section-input input {
+  border: none;
+  border-bottom: 1px solid;
+  padding: 5px;
+  width: 1.6em;
+  font-size: 1em;
+}
+
+.form-buttons-container {
+  width: 100%;
+  display: inline-block;
+}
+
+.form-buttons-container .form-button {
+  width: 40%;
+  height: 50px;
+  margin: 0 5%;
+  border: none;
+  background-color: #3162ce;
+  box-shadow: -1px -1px 3px 0 #000000 inset, 1px 1px 3px 0 #ffffff inset;
+  color: white;
+  font-size: larger;
+  border-radius: 10px;
+}
+.btn-danger {
+  background-color: #b10000 !important;
+}
+.fixed-bottom {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 6em;
+}
+.steps-left {
+  display: inline-block;
+  float: right;
+  margin: 2em 5%;
+}
+.activity-name {
+  text-align: center;
+  font-size: 1.8em;
+  padding: 0;
+}
+
+/*  */
+
+/* Sets the containers height and width */
+.base-timer {
+  position: relative;
+  height: 300px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+/* Removes SVG styling that would hide the time label */
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+/* The SVG path that displays the timer's progress */
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: grey;
+}
+
+.base-timer__label {
+  position: absolute;
+
+  /* Size should match the parent container */
+  width: 300px;
+  height: 300px;
+
+  /* Keep the label aligned to the top */
+  top: 0;
+
+  /* Create a flexible box that centers content vertically and horizontally */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Sort of an arbitrary number; adjust to your liking */
+  font-size: 48px;
+}
+.base-timer__path-remaining {
+  /* Just as thick as the original ring */
+  stroke-width: 7px;
+
+  /* Rounds the line endings to create a seamless circle */
+  stroke-linecap: round;
+
+  /* Makes sure the animation starts at the top of the circle */
+  transform: rotate(90deg);
+  transform-origin: center;
+
+  /* One second aligns with the speed of the countdown timer */
+  transition: 1s linear all;
+
+  /* Allows the ring to change color when the color value updates */
+  stroke: currentColor;
+}
+
+.base-timer__svg {
+  /* Flips the svg and makes the animation to move left-to-right */
+  transform: scaleX(-1);
+}
+
+.green {
+  color: #73d873;
+}
+/*  */
