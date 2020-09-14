@@ -4,8 +4,8 @@ import Config from './Components/Config';
 import Timer from './Components/Timer';
 import Home from './Components/Home';
 import './Components/main.css';
-import sound1 from './Resources/sounds/sound1.mp3';
-import sound2 from './Resources/sounds/sound2.mp3';
+import sound1 from './Resources/sounds/sound1.mp3.sound';
+import sound2 from './Resources/sounds/sound2.mp3.sound';
 
 const windows = { home: 'home', config: 'config', timer: 'timer' }
 const mensajesEstaticos = {

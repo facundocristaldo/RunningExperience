@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import './main.css';
 
 const configuraciones = {
+  CaminaTitulo: "CTitulo",
   CaminaMinutos: 'CMin',
   CaminaSegundos: 'CSeg',
+  CorreTitulo: "TTitulo",
   CorreMinutos: "TMin",
   CorreSegundos: "TSeg",
   Repeticiones: "repeticiones"
@@ -32,6 +34,10 @@ class Config extends Component {
       let campo = event.target.id;
       let newState = this.state;
       switch (campo) {
+        case configuraciones.CaminaTitulo:
+          newState.configuracion.caminata.titulo = nuevoValor;
+          this.setState(newState);
+          break;
         case configuraciones.CaminaMinutos:
           newState.configuracion.caminata.minutos = nuevoValor;
           this.setState(newState);
@@ -40,6 +46,11 @@ class Config extends Component {
           newState.configuracion.caminata.segundos = nuevoValor;
           this.setState(newState);
           break;
+        case configuraciones.CorreTitulo:
+          newState.configuracion.corre.titulo = nuevoValor;
+          this.setState(newState);
+          break;
+
         case configuraciones.CorreMinutos:
           newState.configuracion.corre.minutos = nuevoValor;
           this.setState(newState);
@@ -57,6 +68,26 @@ class Config extends Component {
       }
       this.handleSubmit();
     }
+    if (event.target.id.trim() === configuraciones.CaminaTitulo || event.target.id.trim() === configuraciones.CorreTitulo) {
+      let nuevoValor = event.target.value.toString();
+      let campo = event.target.id;
+      let newState = this.state;
+
+      switch (campo) {
+        case configuraciones.CaminaTitulo:
+          newState.configuracion.caminata.titulo = nuevoValor;
+          this.setState(newState);
+          break;
+        case configuraciones.CorreTitulo:
+          newState.configuracion.corre.titulo = nuevoValor;
+          this.setState(newState);
+          break;
+        default:
+          break;
+      }
+      this.handleSubmit();
+    }
+
   }
   handleSubmit = e => {
     //e.preventDefault();
@@ -64,13 +95,13 @@ class Config extends Component {
     this.props.updateStateConfig(this.state.configuracion);
   }
 
-  reload = e => {
-    //e.preventDefault();
-    let newState = this.state
-    newState.configuracion = this.props.actualCofig;
-    console.log('cancel state=', this.props.actualCofig)
-    this.setState(newState);
-  }
+  // reload = e => {
+  //   //e.preventDefault();
+  //   let newState = this.state
+  //   newState.configuracion = this.props.actualCofig;
+  //   console.log('cancel state=', this.props.actualCofig)
+  //   this.setState(newState);
+  // }
 
   render() {
     // console.log(this.state)
@@ -80,12 +111,12 @@ class Config extends Component {
 
         <form className="config-form" onSubmit={this.handleSubmit}>
           <div className="form-section">
-            <h3 className="form-section-title">Caminata</h3>
+            <h3 className="form-section-title"><input type="text" placeholder="Actividad" id={configuraciones.CaminaTitulo} onChange={this.handleChange} value={this.state.configuracion.caminata.titulo} /></h3>
             <label className="form-section-input" htmlFor='CMin'>Minutos <input type="number" min="0" max="60" id="CMin" onChange={this.handleChange} value={this.state.configuracion.caminata.minutos} /></label>
             <label className="form-section-input" htmlFor='CSeg'>Segundos <input type="number" min="0" max="60" id="CSeg" onChange={this.handleChange} value={this.state.configuracion.caminata.segundos} /></label>
           </div>
           <div className="form-section">
-            <h3 className="form-section-title">Trote</h3>
+            <h3 className="form-section-title"><input type="text" placeholder="Actividad" id={configuraciones.CorreTitulo} value={this.state.configuracion.corre.titulo} onChange={this.handleChange} /></h3>
             <label className="form-section-input" htmlFor='TMin'>Minutos <input type="number" min="0" max="60" id="TMin" onChange={this.handleChange} value={this.state.configuracion.corre.minutos} /></label>
             <label className="form-section-input" htmlFor='TSeg'>Segundos <input type="number" min="0" max="60" id="TSeg" onChange={this.handleChange} value={this.state.configuracion.corre.segundos} /></label>
           </div>
