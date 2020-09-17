@@ -14,15 +14,21 @@
 
 .nav-bar .nav-bar-item {
   width: 49.95%;
-  background: #000248;
+  background: #fff;
+  border: none;
   font-size: 1.3em;
-  color: #fff;
+  color: #000000;
   font-family: Nunito, Arial;
   font-feature-settings: "c2sc";
   font-variant: small-caps;
   font-weight: 700;
-  border: 0.001em solid white;
+  box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.25);
   margin: 0 auto;
+}
+
+.nav-bar-item-active {
+  background: #002093 !important;
+  color: #fff !important;
 }
 
 .main-title {
@@ -31,6 +37,9 @@
   margin: 0;
   padding: 0;
   color: #002984;
+  font-variant: small-caps;
+  font-size: 2.9em;
+  text-align: center;
 }
 
 .page-title {
@@ -40,16 +49,20 @@
 }
 
 .config-form {
-  padding: 0.2em;
+  top: 0vh;
+  position: relative;
+  width: 90vw;
+  left: 3vw;
+  padding-bottom: 7vh;
 }
 
 .form-section {
-  margin: 1em 0;
+  margin: 2em 0;
   text-align: center;
   height: 100px;
-  box-shadow: 2px 2px 3px 0 #00000030;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  padding: 0.4em 0;
+  padding: 1em 0 1.5em 0;
 }
 
 .form-section-title {
@@ -114,13 +127,21 @@
 }
 .steps-left {
   float: right;
-  margin: 2em 5%;
+  margin: 0em 5%;
   font-size: 1.4em;
+  font-family: Nunito, Arial;
 }
 .activity-name {
   text-align: center;
   font-size: 1.8em;
-  padding: 0;
+  padding: 1em 0;
+}
+
+.form-button-stop {
+  text-align: center;
+  font-size: 1.7em;
+  color: #8d8d8ded;
+  font-family: Nunito, Arial;
 }
 
 /*  */
@@ -191,6 +212,81 @@
 }
 
 .green {
-  color: #73d873;
+  color: #0027af;
 }
 /*  */
+
+@media only screen and (max-width: 400px) {
+  body {
+    font-size: 13px;
+  }
+  main-title {
+  }
+}
+@media only screen and (max-width: 325px) {
+  body {
+    font-size: 10px;
+  }
+}
+@media only screen and (max-height: 700px) {
+  .activity-name {
+    padding: 0;
+  }
+}
+@media only screen and (max-height: 632px) {
+  .form-button-stop {
+    font-size: 1em;
+  }
+  .activity-name {
+    padding: 0;
+  }
+  .base-timer {
+    margin-left: -100px;
+  }
+  .base-timer__label,
+  .base-timer {
+    width: 200px;
+    height: 200px;
+    font-size: 18px;
+  }
+}
+
+@media only screen and (max-height: 523px) {
+  .form-button-stop {
+    font-size: 1em;
+  }
+  .activity-name {
+    padding: 0;
+  }
+  .base-timer {
+    margin-left: -75px;
+  }
+  .base-timer__label,
+  .base-timer {
+    width: 150px;
+    height: 150px;
+    font-size: 16px;
+  }
+}
+@media only screen and (max-height: 475px) {
+  .activity-name {
+    margin-top: 0.4em;
+  }
+}
+@media only screen and (max-height: 430px) {
+  body {
+    font-size: 13px;
+  }
+}
+@media only screen and (max-height: 378px) {
+  .activity-name {
+    position: absolute;
+    top: 37vh;
+    left: 5vw;
+  }
+  .form-button-stop {
+    position: absolute;
+    top: 13vh;
+    right: -25vw;
+  }
+}

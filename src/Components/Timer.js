@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './main.css';
 
 const FULL_DASH_ARRAY = 283;
-
+const timerStatus = { stoped: "stoped", running: "running" };
 class Timer extends Component {
 
   // Divides time left by the defined time limit.
@@ -35,16 +35,12 @@ class Timer extends Component {
             </g>
           </svg>
           <span id="base-timer-label" className="base-timer__label">
-            {tiempoTexto}
+            {(this.props.timerState === timerStatus.running) ? <p>{tiempoTexto}</p> : <p className="form-button" onClick={this.props.startTimer}>Comenzar</p>}
           </span>
+          {(this.props.timerState === timerStatus.running) ? <p className=" form-button-stop" onClick={this.props.stopTimer}>Finalizar</p> : ""}
         </div>
-        {/* <p className="time-left">{tiempoTexto}</p> */}
         <div className="fixed-bottom">
           <p className="steps-left">Vueltas restantes: {this.props.stepsLeft}</p>
-          <div className="form-buttons-container">
-            <button className="form-button btn-danger" type="button" onClick={this.props.stopTimer}>Frenar</button>
-            <button className="form-button" type="button" onClick={this.props.startTimer}>Comenzar</button>
-          </div>
         </div>
       </div>
     )

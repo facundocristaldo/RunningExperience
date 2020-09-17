@@ -12,6 +12,7 @@ const mensajesEstaticos = {
   comienza: "Comienza",
   felicitaciones: "Felicitaciones!"
 }
+const timerStatus = { stoped: "stoped", running: "running" };
 var interval;
 class App extends React.Component {
 
@@ -25,6 +26,7 @@ class App extends React.Component {
     timerValueSeconds: 0,
     timerActivity: '',
     timerStepsLeft: 0,
+    timerState: timerStatus.stoped
   }
   sound1 = new Audio(sound1);
   sound2 = new Audio(sound2);
@@ -63,6 +65,7 @@ class App extends React.Component {
     newState.timerActivity = this.state.configuracion.caminata.titulo;
     newState.timerStepsLeft = this.state.configuracion.repeticiones;
     newState.timerTotalTime = newState.timerValueSeconds;
+    newState.timerState = timerStatus.running;
     if (newState.timerStepsLeft > 0) {
       this.setState(newState);
       // console.log("start timer state=", this.state)
@@ -87,17 +90,18 @@ class App extends React.Component {
     this.setState(newState);
   }
 
-  stopTimer() {
+  stopTimer = () => {
+
     if (interval) {
       clearInterval(interval);
       interval = undefined;
-      // let newState = this.state;
-      // newState.timerValueSeconds = 0;
-      // newState.timerActivity = '';
-      // this.setState(newState);
+      let newState = this.state;
+      newState.timerState = timerStatus.stoped;
+      newState.timerValueSeconds = 0;
+      newState.timerActivity = '';
+      this.setState(newState);
     }
   }
-
   toggleActivity = () => {
     let newState = this.state;
     if (newState.timerActivity === newState.configuracion.caminata.titulo) {
@@ -143,19 +147,22 @@ class App extends React.Component {
             actividad={this.state.timerActivity}
             stepsLeft={this.state.timerStepsLeft}
             timerTotalTime={this.state.timerTotalTime}
+            timerState={this.state.timerState}
           />
         break;
       default:
         windowtoShow = <Home />
     }
+    let confElemClass = `nav-bar-item ${(this.state.window === windows.config) ? "nav-bar-item-active" : ""}`
+    let timerElemClass = `nav-bar-item ${(this.state.window === windows.timer) ? "nav-bar-item-active" : ""}`
     return (
       <div>
         <h1 className="main-title">Running Experience</h1>
         {windowtoShow}
         <div className="nav-bar">
           {/* <button onClick={() => this.changeWindow(windows.home)}>Inicio</button> */}
-          <button className="nav-bar-item" onClick={() => this.changeWindow(windows.config)} > Configuración</button>
-          <button className="nav-bar-item" onClick={() => this.changeWindow(windows.timer)} > A Correr</button>
+          <button className={confElemClass} onClick={() => this.changeWindow(windows.config)} > Configuración</button>
+          <button className={timerElemClass} onClick={() => this.changeWindow(windows.timer)} > A Correr</button>
         </div>
       </div>
     );

@@ -107,7 +107,7 @@ class Config extends Component {
     // console.log(this.state)
     return (
       <div>
-        <h1 className="page-title"> Configuración</h1>
+        {/* <h1 className="page-title"> Configuración</h1> */}
 
         <form className="config-form" onSubmit={this.handleSubmit}>
           <div className="form-section">
