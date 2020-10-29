@@ -20,6 +20,21 @@ class Config extends Component {
         caminata: { minutos: 0, segundos: 0, titulo: "Camina" },
         corre: { minutos: 0, segundos: 0, titulo: "Trota" },
         repeticiones: 0
+      },
+      configFormStyle: {
+        opacity: 1,
+      },
+      configFormItemsStyle: {
+        opacity: 0,
+        animation: '',
+      },
+      configFormItemsStyle2: {
+        opacity: 0,
+        animation: '',
+      },
+      configFormItemsStyle3: {
+        opacity: 0,
+        animation: '',
       }
     }
     //let newstate = this.state
@@ -94,6 +109,32 @@ class Config extends Component {
 
     this.props.updateStateConfig(this.state.configuracion);
   }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        configFormStyle: {
+          opacity: 1
+        },
+        configFormItemsStyle: {
+          animation: 'ease-in-down 0.5s',
+        }
+      })
+    }, 50)
+    setTimeout(() => {
+      this.setState({
+        configFormItemsStyle2: {
+          animation: 'ease-in-down 0.5s',
+        }
+      })
+    }, 250)
+    setTimeout(() => {
+      this.setState({
+        configFormItemsStyle3: {
+          animation: 'ease-in-down 0.5s',
+        }
+      })
+    }, 500)
+  }
 
   // reload = e => {
   //   //e.preventDefault();
@@ -109,18 +150,18 @@ class Config extends Component {
       <div>
         {/* <h1 className="page-title"> Configuración</h1> */}
 
-        <form className="config-form" onSubmit={this.handleSubmit}>
-          <div className="form-section">
+        <form className="config-form" style={this.state.configFormStyle} onSubmit={this.handleSubmit}>
+          <div className="form-section" style={this.state.configFormItemsStyle}>
             <h3 className="form-section-title"><input type="text" placeholder="Actividad" id={configuraciones.CaminaTitulo} onChange={this.handleChange} value={this.state.configuracion.caminata.titulo} /></h3>
             <label className="form-section-input" htmlFor='CMin'>Minutos <input type="number" min="0" max="60" id="CMin" onChange={this.handleChange} value={this.state.configuracion.caminata.minutos} /></label>
             <label className="form-section-input" htmlFor='CSeg'>Segundos <input type="number" min="0" max="60" id="CSeg" onChange={this.handleChange} value={this.state.configuracion.caminata.segundos} /></label>
           </div>
-          <div className="form-section">
+          <div className="form-section" style={this.state.configFormItemsStyle2}>
             <h3 className="form-section-title"><input type="text" placeholder="Actividad" id={configuraciones.CorreTitulo} value={this.state.configuracion.corre.titulo} onChange={this.handleChange} /></h3>
             <label className="form-section-input" htmlFor='TMin'>Minutos <input type="number" min="0" max="60" id="TMin" onChange={this.handleChange} value={this.state.configuracion.corre.minutos} /></label>
             <label className="form-section-input" htmlFor='TSeg'>Segundos <input type="number" min="0" max="60" id="TSeg" onChange={this.handleChange} value={this.state.configuracion.corre.segundos} /></label>
           </div>
-          <div className="form-section">
+          <div className="form-section" style={this.state.configFormItemsStyle3}>
             <h3 className="form-section-title">Repeticiones</h3>
             <label className="form-section-input" htmlFor='repeticiones'>Cantidad <input type="number" min="0" max="60" id="repeticiones" onChange={this.handleChange} value={this.state.configuracion.repeticiones} /></label>
           </div>
