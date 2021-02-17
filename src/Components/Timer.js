@@ -88,7 +88,6 @@ class Timer extends Component {
 }
 
 function Circle(props) {
-  console.log("circle props=", props.circleDasharray[0])
   let fill = (props.circleDasharray[0] === '0') ? false : true;
   return (
     <path id="base-timer-path-remaining" strokeDasharray={props.circleDasharray}
