@@ -61,6 +61,8 @@ class App extends React.Component {
     this.stopTimer();
     let newState = this.state;
     let timerseconds = this.state.configuracion.caminata.minutos * 60 + this.state.configuracion.caminata.segundos
+    if (timerseconds <= 0)
+      return
     newState.timerValueSeconds = timerseconds;
     newState.timerActivity = this.state.configuracion.caminata.titulo;
     newState.timerStepsLeft = this.state.configuracion.repeticiones;
