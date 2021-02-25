@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './main.css';
 
 const FULL_DASH_ARRAY = 283;
@@ -63,9 +64,11 @@ class Timer extends Component {
     let segundosSTR = String('0' + Math.floor(segundos)).slice(-2);
 
     let tiempoTexto = minutosSTR + ":" + segundosSTR;
+    let clase = 'configIconLink'
+    clase += (this.props.timerState === timerStatus.running) ? ' linkHidden' : ''
     return (
       <div className="hero-container">
-        {/* <h1 className="page-title"> A Correr </h1> */}
+        <Link to="/config" className={clase}><img className="configIconImg" src={require("../Resources/icons/SettingsIcon.png")} alt={"Configuración"} /></Link>
         <p className="activity-name">{this.props.actividad}</p>
         <div className="base-timer" style={this.state.timerStyle}>
           <svg className="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +85,7 @@ class Timer extends Component {
         <div className="fixed-bottom" style={this.state.stepsStyle}>
           <p className="steps-left">Vueltas restantes: {this.props.stepsLeft}</p>
         </div>
-      </div>
+      </div >
     )
   }
 }

@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './main.css';
 
 const configuraciones = {
@@ -10,169 +12,127 @@ const configuraciones = {
   CorreSegundos: "TSeg",
   Repeticiones: "repeticiones"
 }
-class Config extends Component {
+function Config(props) {
 
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      configuracion: {
-        caminata: { minutos: 0, segundos: 0, titulo: "Camina" },
-        corre: { minutos: 0, segundos: 0, titulo: "Trota" },
-        repeticiones: 0
-      },
-      configFormStyle: {
-        opacity: 1,
-      },
-      configFormItemsStyle: {
-        opacity: 0,
-        animation: '',
-      },
-      configFormItemsStyle2: {
-        opacity: 0,
-        animation: '',
-      },
-      configFormItemsStyle3: {
-        opacity: 0,
-        animation: '',
-      }
-    }
-    //let newstate = this.state
-    this.state.configuracion = this.props.actualCofig
-    // console.log("config= ", this.state)
-    //this.setState(this.state)
-  }
+  const [configuracion, setConfiguracion] = useState(props.actualCofig)
+  const [configFormStyle, setConfigFormStyle] = useState({
+    opacity: 0,
+  });
+  const [configFormItemsStyle, setConfigFormItemsStyle] = useState({
+    opacity: 0,
+    animation: '',
+  });
+  const [configFormItemsStyle2, setConfigFormItemsStyle2] = useState({
+    opacity: 0,
+    animation: '',
+  });
+  const [configFormItemsStyle3, setConfigFormItemsStyle3] = useState({
+    opacity: 0,
+    animation: '',
+  });
 
-  handleChange = event => {
+  const handleChange = (event) => {
     if (Number(event.target.value) >= 0 && Number(event.target.value) <= 60) {
       let nuevoValor = Number(event.target.value);
       let campo = event.target.id;
-      let newState = this.state;
       switch (campo) {
         case configuraciones.CaminaTitulo:
-          newState.configuracion.caminata.titulo = nuevoValor;
-          this.setState(newState);
+          configuracion.caminata.titulo = nuevoValor;
+          setConfiguracion(configuracion);
           break;
         case configuraciones.CaminaMinutos:
-          newState.configuracion.caminata.minutos = nuevoValor;
-          this.setState(newState);
+          configuracion.caminata.minutos = nuevoValor;
+          setConfiguracion(configuracion);
           break;
         case configuraciones.CaminaSegundos:
-          newState.configuracion.caminata.segundos = nuevoValor;
-          this.setState(newState);
+          configuracion.caminata.segundos = nuevoValor;
+          setConfiguracion(configuracion);
           break;
         case configuraciones.CorreTitulo:
-          newState.configuracion.corre.titulo = nuevoValor;
-          this.setState(newState);
+          configuracion.corre.titulo = nuevoValor;
+          setConfiguracion(configuracion);
           break;
 
         case configuraciones.CorreMinutos:
-          newState.configuracion.corre.minutos = nuevoValor;
-          this.setState(newState);
+          configuracion.corre.minutos = nuevoValor;
+          setConfiguracion(configuracion);
           break;
         case configuraciones.CorreSegundos:
-          newState.configuracion.corre.segundos = nuevoValor;
-          this.setState(newState);
+          configuracion.corre.segundos = nuevoValor;
+          setConfiguracion(configuracion);
           break;
         case configuraciones.Repeticiones:
-          newState.configuracion.repeticiones = nuevoValor;
-          this.setState(newState);
+          configuracion.repeticiones = nuevoValor;
+          setConfiguracion(configuracion);
           break;
         default:
           break;
       }
-      this.handleSubmit();
+      handleSubmit();
     }
     if (event.target.id.trim() === configuraciones.CaminaTitulo || event.target.id.trim() === configuraciones.CorreTitulo) {
       let nuevoValor = event.target.value.toString();
       let campo = event.target.id;
-      let newState = this.state;
 
       switch (campo) {
         case configuraciones.CaminaTitulo:
-          newState.configuracion.caminata.titulo = nuevoValor;
-          this.setState(newState);
+          configuracion.caminata.titulo = nuevoValor;
+          setConfiguracion(configuracion);
           break;
         case configuraciones.CorreTitulo:
-          newState.configuracion.corre.titulo = nuevoValor;
-          this.setState(newState);
+          configuracion.corre.titulo = nuevoValor;
+          setConfiguracion(configuracion);
           break;
         default:
           break;
       }
-      this.handleSubmit();
+      handleSubmit();
     }
 
   }
-  handleSubmit = e => {
-    //e.preventDefault();
-
-    this.props.updateStateConfig(this.state.configuracion);
+  const handleSubmit = e => {
+    props.updateStateConfig(configuracion);
   }
-  componentDidMount() {
+  useEffect(() => {
     setTimeout(() => {
-      this.setState({
-        configFormStyle: {
-          opacity: 1
-        },
-        configFormItemsStyle: {
-          animation: 'ease-in-down 0.5s',
-        }
+      setConfigFormStyle({
+        opacity: 1
       })
-    }, 50)
-    setTimeout(() => {
-      this.setState({
-        configFormItemsStyle2: {
-          animation: 'ease-in-down 0.5s',
-        }
+      setConfigFormItemsStyle({
+        animation: 'ease-in-down 0.5s',
       })
-    }, 250)
-    setTimeout(() => {
-      this.setState({
-        configFormItemsStyle3: {
-          animation: 'ease-in-down 0.5s',
-        }
+      setConfigFormItemsStyle2({
+        animation: 'ease-in-down 0.9s',
       })
-    }, 500)
-  }
+      setConfigFormItemsStyle3({
+        animation: 'ease-in-down 1.2s',
+      })
+    }, 100)
+  }, [configFormItemsStyle, configFormItemsStyle2, configFormItemsStyle3])
+  let clase = 'configIconLink'
 
-  // reload = e => {
-  //   //e.preventDefault();
-  //   let newState = this.state
-  //   newState.configuracion = this.props.actualCofig;
-  //   console.log('cancel state=', this.props.actualCofig)
-  //   this.setState(newState);
-  // }
-
-  render() {
-    // console.log(this.state)
-    return (
-      <div>
-        {/* <h1 className="page-title"> Configuración</h1> */}
-
-        <form className="config-form" style={this.state.configFormStyle} onSubmit={this.handleSubmit}>
-          <div className="form-section" style={this.state.configFormItemsStyle}>
-            <h3 className="form-section-title"><input type="text" placeholder="Actividad" id={configuraciones.CaminaTitulo} onChange={this.handleChange} value={this.state.configuracion.caminata.titulo} /></h3>
-            <label className="form-section-input" htmlFor='CMin'>Minutos <input type="number" min="0" max="60" id="CMin" onChange={this.handleChange} value={this.state.configuracion.caminata.minutos} /></label>
-            <label className="form-section-input" htmlFor='CSeg'>Segundos <input type="number" min="0" max="60" id="CSeg" onChange={this.handleChange} value={this.state.configuracion.caminata.segundos} /></label>
-          </div>
-          <div className="form-section" style={this.state.configFormItemsStyle2}>
-            <h3 className="form-section-title"><input type="text" placeholder="Actividad" id={configuraciones.CorreTitulo} value={this.state.configuracion.corre.titulo} onChange={this.handleChange} /></h3>
-            <label className="form-section-input" htmlFor='TMin'>Minutos <input type="number" min="0" max="60" id="TMin" onChange={this.handleChange} value={this.state.configuracion.corre.minutos} /></label>
-            <label className="form-section-input" htmlFor='TSeg'>Segundos <input type="number" min="0" max="60" id="TSeg" onChange={this.handleChange} value={this.state.configuracion.corre.segundos} /></label>
-          </div>
-          <div className="form-section" style={this.state.configFormItemsStyle3}>
-            <h3 className="form-section-title">Repeticiones</h3>
-            <label className="form-section-input" htmlFor='repeticiones'>Cantidad <input type="number" min="0" max="60" id="repeticiones" onChange={this.handleChange} value={this.state.configuracion.repeticiones} /></label>
-          </div>
-          {/* <div className="form-buttons-container">
-            <button className="form-button" type="button" onClick={this.reload}>Cancelar</button>
-            <button className="form-button" type="Submit">Guardar</button>
-          </div> */}
-        </form>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <Link to="/timer" className={clase}><img className="configIconImg" src={require("../Resources/icons/CerrarIcon.png")} alt={"Volver"} /></Link>
+      <form className="config-form" style={configFormStyle} onSubmit={() => handleSubmit()}>
+        <div className="form-section" style={configFormItemsStyle}>
+          <h3 className="form-section-title"><input type="text" placeholder="Actividad" id={configuraciones.CaminaTitulo} onChange={(e) => handleChange(e)} value={configuracion.caminata.titulo} /></h3>
+          <label className="form-section-input" htmlFor='CMin'>Minutos <input type="number" min="0" max="60" id="CMin" onChange={(e) => handleChange(e)} value={configuracion.caminata.minutos} /></label>
+          <label className="form-section-input" htmlFor='CSeg'>Segundos <input type="number" min="0" max="60" id="CSeg" onChange={(e) => handleChange(e)} value={configuracion.caminata.segundos} /></label>
+        </div>
+        <div className="form-section" style={configFormItemsStyle2}>
+          <h3 className="form-section-title"><input type="text" placeholder="Actividad" id={configuraciones.CorreTitulo} value={configuracion.corre.titulo} onChange={(e) => handleChange(e)} /></h3>
+          <label className="form-section-input" htmlFor='TMin'>Minutos <input type="number" min="0" max="60" id="TMin" onChange={(e) => handleChange(e)} value={configuracion.corre.minutos} /></label>
+          <label className="form-section-input" htmlFor='TSeg'>Segundos <input type="number" min="0" max="60" id="TSeg" onChange={(e) => handleChange(e)} value={configuracion.corre.segundos} /></label>
+        </div>
+        <div className="form-section" style={configFormItemsStyle3}>
+          <h3 className="form-section-title">Repeticiones</h3>
+          <label className="form-section-input" htmlFor='repeticiones'>Cantidad <input type="number" min="0" max="60" id="repeticiones" onChange={(e) => handleChange(e)} value={configuracion.repeticiones} /></label>
+        </div>
+      </form>
+    </div>
+  )
 }
 
 

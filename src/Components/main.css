@@ -57,12 +57,18 @@
 }
 
 .config-form {
-  top: 0vh;
-  position: relative;
+  top: 0;
+  position: absolute;
   width: 90vw;
-  left: 3vw;
-  padding-bottom: 7vh;
-  transition: "all 0.2s ease";
+  left: 5vw;
+  padding-bottom: 0;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 80vh;
+  margin: 5vh 0 5vh 0;
+  min-height: fit-content;
 }
 @keyframes ease-in-down {
   from {
@@ -176,7 +182,24 @@
 
   animation: fade-in 1s;
 }
-
+.hero-container{
+}
+.configIconImg{
+  object-fit: contain;
+  width: 40px;
+  height: 40px;
+}
+.configIconLink{
+  position:absolute;
+  right: 1em;
+  top: 1em;
+  opacity: 1;
+transition: opacity 250ms ease;
+z-index: 100;
+}
+.linkHidden{
+  opacity: 0;
+}
 /*  */
 
 /* Sets the containers height and width */
