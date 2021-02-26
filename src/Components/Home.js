@@ -1,22 +1,13 @@
 import React from 'react';
 import Config from './Config';
 import Timer from './Timer';
-import './main.css';
 import sound1 from '../Resources/sounds/sound1.mp3.sound';
 import sound2 from '../Resources/sounds/sound2.mp3.sound';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { windows, timerStatus, mensajesEstaticos } from './Constants'
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { ConvertMinSegDurationToSeg } from '../utils';
+import './main.css';
 
-const windows = { home: 'home', config: 'config', timer: 'timer' }
-const mensajesEstaticos = {
-  comienza: "Comienza",
-  felicitaciones: "Felicitaciones!"
-}
-const timerStatus = { stoped: "stoped", running: "running" };
 var interval;
 class Home extends React.Component {
 
@@ -35,107 +26,119 @@ class Home extends React.Component {
   sound1 = new Audio(sound1);
   sound2 = new Audio(sound2);
 
-  constructor(props) {
-    super(props);
+  componentDidMount() {
     if (window.localStorage.getItem('state')) {
       let result = window.localStorage.getItem('state')
       if (result) {
-        this.state = JSON.parse(result)
+        this.setState((prevState) => JSON.parse(result))
       }
     }
   }
 
-
-  changeWindow(selWindow) {
-    let newState = this.state;
-    newState.window = selWindow;
-    this.setState(newState)
-    window.localStorage.setItem('state', JSON.stringify(newState))
-  }
-
   updateStateConfig = config => {
-    let newState = this.state;
-    newState.configuracion = config;
-    this.setState(newState);
-    // console.log("App state", newState);
-    window.localStorage.setItem('state', JSON.stringify(this.state))
+    this.setState((prevState) => {
+      prevState.configuracion = config
+      window.localStorage.setItem('state', JSON.stringify(prevState))
+      return prevState;
+    });
   }
 
   startTimer = () => {
     this.stopTimer();
-    let newState = this.state;
-    let timerseconds = this.state.configuracion.caminata.minutos * 60 + this.state.configuracion.caminata.segundos
-    if (timerseconds <= 0)
-      return
-    if (this.state.configuracion.corre.minutos * 60 + this.state.configuracion.corre.segundos <= 0)
-      return
-    if (this.state.configuracion.repeticiones <= 0)
-      return
-    newState.timerValueSeconds = timerseconds;
-    newState.timerActivity = this.state.configuracion.caminata.titulo;
-    newState.timerStepsLeft = this.state.configuracion.repeticiones;
-    newState.timerTotalTime = newState.timerValueSeconds;
-    newState.timerState = timerStatus.running;
-    if (newState.timerStepsLeft > 0) {
-      this.setState(newState);
-      if (!interval) {
-        interval = setInterval(() => {
-          this.tick();
-        }, 1000);
-      }
-    }
+
+    this.setState((prevState) => {
+      //clono el objeto prevState
+      let newState = { ...prevState };
+      //extraigo para mejor legibilidad
+      const { caminata, corre, repeticiones } = prevState.configuracion;
+      //checkeo
+      if (ConvertMinSegDurationToSeg(caminata) <= 0)
+        return
+      if (ConvertMinSegDurationToSeg(corre) <= 0)
+        return
+      if (repeticiones <= 0)
+        return
+      //asigno valores
+      newState.timerValueSeconds = ConvertMinSegDurationToSeg(caminata);
+      newState.timerActivity = caminata.titulo;
+      newState.timerStepsLeft = repeticiones;
+      newState.timerTotalTime = ConvertMinSegDurationToSeg(caminata);
+      newState.timerState = timerStatus.running;
+      //comienzo el intervalo
+      interval = setInterval(() => {
+        this.tick();
+      }, 1000);
+      return newState;
+    })
   }
 
   tick() {
-    let newState = this.state;
-    newState.timerValueSeconds--;
-    if (newState.timerValueSeconds <= 0) {
-      this.toggleActivity();
-    }
-    this.setState(newState);
+    this.setState(prevState => {
+      //clono el estado para no cambiar direactamente
+      let newState = { ...prevState };
+      //disminuyo el segundo en 1
+      newState.timerValueSeconds--;
+      //Si llegué a 0, cambio actividad
+      if (newState.timerValueSeconds <= 0) {
+        this.toggleActivity();
+      }
+      return newState;
+    })
   }
 
   stopTimer = () => {
-
     if (interval) {
       clearInterval(interval);
       interval = undefined;
-      let newState = this.state;
-      newState.timerState = timerStatus.stoped;
-      newState.timerValueSeconds = 0;
-      newState.timerActivity = '';
-      this.setState(newState);
-    }
-  }
-  toggleActivity = () => {
-    let newState = this.state;
-    if (newState.timerActivity === newState.configuracion.caminata.titulo) {
-      newState.timerActivity = newState.configuracion.corre.titulo;
-      newState.timerValueSeconds = newState.configuracion.corre.minutos * 60 + newState.configuracion.corre.segundos;
-      newState.timerTotalTime = newState.timerValueSeconds;
-      this.sound1.play();
-    } else if (newState.timerActivity === newState.configuracion.corre.titulo) {
-      newState.timerStepsLeft--;
-      if (newState.timerStepsLeft === 0) {
-        newState.timerActivity = mensajesEstaticos.felicitaciones;
+      this.setState(prevState => {
+        let newState = { ...prevState };
+        newState.timerState = timerStatus.stoped;
         newState.timerValueSeconds = 0;
-        this.stopTimer();
-        this.sound2.play();
-      } else {
-        newState.timerActivity = newState.configuracion.caminata.titulo;
-        newState.timerValueSeconds = newState.configuracion.caminata.minutos * 60 + newState.configuracion.caminata.segundos;
-        newState.timerTotalTime = newState.timerValueSeconds;
-        this.sound1.play();
-      }
+        newState.timerActivity = '';
+        return newState;
+      })
     }
-    this.setState(newState);
-
   }
 
+  toggleActivity = () => {
+    this.setState(prevState => {
+
+      let newState = { ...prevState };
+      const { caminata, corre } = prevState.configuracion;
+      const { timerActivity } = prevState;
+      switch (timerActivity) {
+        case caminata.titulo:
+          newState.timerActivity = corre.titulo;
+          newState.timerValueSeconds = ConvertMinSegDurationToSeg(corre);
+          newState.timerTotalTime = ConvertMinSegDurationToSeg(corre);
+          this.sound1.play();
+          break;
+        case corre.titulo:
+          newState.timerStepsLeft--;
+          if (newState.timerStepsLeft === 0) {
+            newState.timerActivity = mensajesEstaticos.felicitaciones;
+            newState.timerValueSeconds = 0;
+            this.stopTimer();
+            this.sound2.play();
+          } else {
+            newState.timerActivity = caminata.titulo;
+            newState.timerValueSeconds = ConvertMinSegDurationToSeg(caminata);
+            newState.timerTotalTime = ConvertMinSegDurationToSeg(corre);
+            this.sound1.play();
+          }
+          break;
+        default:
+          break;
+      }
+      return newState;
+    })
+
+  }
+  endingMessage() {
+
+  }
 
   render() {
-    let confElemClass = `nav-bar-item ${(this.state.window === windows.config) ? "nav-bar-item-active" : ""}`
-    let timerElemClass = `nav-bar-item ${(this.state.window === windows.timer) ? "nav-bar-item-active" : ""}`
     return (
       <div>
         <Router>

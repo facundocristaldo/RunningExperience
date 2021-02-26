@@ -197,6 +197,7 @@ z-index: 100;
 }
 .linkHidden{
   opacity: 0;
+  display: none;
 }
 /*  */
 
